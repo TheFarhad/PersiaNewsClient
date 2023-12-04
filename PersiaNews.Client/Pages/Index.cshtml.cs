@@ -1,20 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace PersiaNews.Client.Pages;
+
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Clients;
+using Models.Dtos;
+using Models.Queries;
 
-namespace PersiaNews.Client.Pages
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly NewsCmsService _newsCmsService;
+    public NewsSearchByTitle Model { get; set; }
+
+    public IndexModel(NewsCmsService newsCmsService) => _newsCmsService = newsCmsService;
+
+    public async Task OnGet()
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
-
-        public void OnGet()
-        {
-
-        }
+        Model = await _newsCmsService.List(new NewsSearchByTitleQuery());
     }
 }
